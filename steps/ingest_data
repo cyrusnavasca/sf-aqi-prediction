@@ -1,0 +1,103 @@
+import pandas as pd
+import os
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Optional
+from api_clients import AirNowClient, OpenWeatherClient, GoogleMapsClient
+from zenml import step
+import logging
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
+
+class IngestData:
+    zipcode = "94134"
+    lat, lon = 37.71496240846135, -122.39879374619026
+    end = "37.78815518223698, -122.39033392944697"
+    waypoints = "via:37.775041848168364, -122.40572258658221|via:37.747227101359464, -122.40427969764805"
+
+    def __init__(self) -> None:
+        pass
+
+    def _ensure_dir(self, path: Path) -> None:
+        if not path.exists():
+            path.mkdir(parents=True, exist_ok=True)
+
+    def _ts(self) -> str:
+        return datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+
+    def get_data(self) -> pd.DataFrame:
+        output_dir = Path(os.getenv("OUTPUT_DIR", "data"))
+        self._ensure_dir(output_dir)
+
+        # Fetch AirNow data
+        try:
+            airnow_client = AirNowClient()
+            airnow_key = os.getenv('AIRNOW_API_KEY')
+            airnow_params = {
+                "zipCode": self.zipcode, 
+                "format": "application/json",
+                "distance": 25
+            }
+            air_data = airnow_client.fetch(api_key=airnow_key, params=airnow_params)
+            if air_data is not None and not air_data.empty:
+                air_path = output_dir / f"airnow_{self._ts()}.csv"
+                air_data.to_csv(air_path, index=False)
+                logging.info("Saved AirNow CSV: %s", air_path)
+
+        except Exception as e:
+            logging.error(f"Failed to fetch AirNow data: {e}", exc_info=True)
+
+        # Fetch OpenWeather data
+        try:
+            weather_client  = OpenWeatherClient()
+            weather_key = os.getenv('OPENWEATHER_API_KEY')
+            weather_params = {
+                "lat": self.lat,
+                "lon": self.lon,
+                "units": "imperial" 
+            }
+            weather_data = weather_client.fetch(api_key=weather_key, params=weather_params)
+            if weather_data is not None and not weather_data.empty:
+                weather_path = output_dir / f"openweather_{self._ts()}.csv"
+                weather_data.to_csv(weather_path, index=False)
+                logging.info("Saved OpenWeather CSV: %s", weather_path)
+
+        except Exception as e:
+            logging.error(f"Failed to fetch WeatherNow data: {e}", exc_info=True)
+
+        # Fetch Google Maps data
+        try:
+            maps_client = GoogleMapsClient()
+            maps_key = os.getenv('GOOGLEMAPS_API_KEY')
+            maps_params = {
+                "origins": f"{self.lat}, {self.lon}",
+                "destinations": self.end,
+                "mode": "driving",
+                "departure_time": "now",
+            }
+            maps_data = maps_client.fetch(api_key=maps_key, params=maps_params)
+            if maps_data is not None and not maps_data.empty:
+                maps_path = output_dir / f"googlemaps_{self._ts()}.csv"
+                maps_data.to_csv(maps_path, index=False)
+                logging.info("Saved Google Maps CSV: %s", maps_path)
+        except Exception as e:
+            logging.error(f"Failed to fetch Google Maps data: {e}", exc_info=True)
+
+
+@step 
+def ingest_data() -> pd.DataFrame:
+    try:
+        return IngestData().get_data()
+    except Exception as e:
+        logging.exception(f"Failed to ingest data: {e}", exc_info=True)
+        raise
+
+
+if __name__ == "__main__":
+    try:
+        IngestData().get_data()
+    except Exception:
+        logging.exception("Ingest script failed")
+        raise

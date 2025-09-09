@@ -1,0 +1,7 @@
+numpy 
+pandas
+matplotlib
+requests
+logging
+python-dotenv
+zenml
