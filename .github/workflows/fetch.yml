@@ -12,7 +12,10 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     env:
-      # Use values provided by .env; OUTPUT_DIR defaults to data
+      # Use GitHub Secrets for API keys
+      AIRNOW_API_KEY: ${{ secrets.AIRNOW_API_KEY }}
+      OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+      GOOGLEMAPS_API_KEY: ${{ secrets.GOOGLEMAPS_API_KEY }}
       OUTPUT_DIR: data
     steps:
       - name: Checkout repository
