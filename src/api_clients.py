@@ -31,7 +31,7 @@ class OpenWeatherClient(APIClient):
             params["appid"] = api_key
             response = requests.get(self.BASE_URL, params=params)
             raw = response.json()
-            data = pd.DataFrame(raw)
+            data = pd.json_normalize(raw)
             return data
         except Exception as e:
             logging.error(f"OpenWeather API request failed: {e}", exc_info=True)
