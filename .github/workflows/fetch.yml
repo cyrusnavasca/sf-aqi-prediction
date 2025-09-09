@@ -60,7 +60,7 @@ jobs:
 
       - name: Run ingest step script
         run: |
-          python steps/ingest_data
+          PYTHONPATH=. python steps/ingest_data
 
       - name: Commit and push data artifacts
         run: |
