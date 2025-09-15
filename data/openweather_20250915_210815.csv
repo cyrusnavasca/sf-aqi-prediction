@@ -1,0 +1,2 @@
+weather,base,visibility,dt,timezone,id,name,cod,coord.lon,coord.lat,main.temp,main.feels_like,main.temp_min,main.temp_max,main.pressure,main.humidity,main.sea_level,main.grnd_level,wind.speed,wind.deg,wind.gust,clouds.all,sys.type,sys.id,sys.country,sys.sunrise,sys.sunset
+"[{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01d'}]",stations,10000,1757970495,-25200,5330810,Brisbane,200,-122.3988,37.715,78.19,78.53,72,87.04,1011,60,1011,1007,10,274,11.99,0,2,2040906,US,1757944309,1757989066
