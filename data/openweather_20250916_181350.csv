@@ -1,0 +1,2 @@
+weather,base,visibility,dt,timezone,id,name,cod,coord.lon,coord.lat,main.temp,main.feels_like,main.temp_min,main.temp_max,main.pressure,main.humidity,main.sea_level,main.grnd_level,wind.speed,wind.deg,clouds.all,sys.type,sys.id,sys.country,sys.sunrise,sys.sunset
+"[{'id': 801, 'main': 'Clouds', 'description': 'few clouds', 'icon': '02d'}]",stations,10000,1758046430,-25200,5330810,Brisbane,200,-122.3988,37.715,73,73.2,69.85,79.05,1014,68,1014,1009,8.05,280,20,2,2080532,US,1758030759,1758075371
