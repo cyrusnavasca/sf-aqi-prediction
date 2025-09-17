@@ -1,0 +1,2 @@
+destination_addresses,origin_addresses,rows,status
+"916 Main St, San Francisco, CA 94105, USA","2011 Bayshore Blvd, San Francisco, CA 94134, USA","{'elements': [{'distance': {'text': '9.3 km', 'value': 9314}, 'duration': {'text': '13 mins', 'value': 750}, 'duration_in_traffic': {'text': '20 mins', 'value': 1198}, 'status': 'OK'}]}",OK
