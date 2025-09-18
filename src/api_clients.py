@@ -6,6 +6,16 @@ import logging
 class APIClient(ABC):
     @abstractmethod
     def fetch(self, api_key: str, params: dict) -> pd.DataFrame:
+        """
+        Fetch real-time data from the API endpoint.
+
+        Args:
+            - api_key (str): API key provided by client
+            - params (dict): parameters for API request
+
+        Returns:
+            - data (pd.DataFrame): raw current data
+        """
         pass
 
 class AirNowClient(APIClient):
