@@ -1,0 +1,2 @@
+weather,base,visibility,dt,timezone,id,name,cod,coord.lon,coord.lat,main.temp,main.feels_like,main.temp_min,main.temp_max,main.pressure,main.humidity,main.sea_level,main.grnd_level,wind.speed,wind.deg,clouds.all,sys.type,sys.id,sys.country,sys.sunrise,sys.sunset
+"[{'id': 711, 'main': 'Smoke', 'description': 'smoke', 'icon': '50n'}]",stations,10000,1758248314,-25200,5330810,Brisbane,200,-122.3988,37.715,61.47,61.16,59.41,66.42,1009,82,1009,1005,19.57,290,75,2,2080532,US,1758203659,1758247983
